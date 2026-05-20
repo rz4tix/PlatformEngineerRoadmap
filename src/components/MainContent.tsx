@@ -52,6 +52,23 @@ function Section({ title, icon, children, className = "" }: { title: string, ico
 }
 
 function DayView({ day }: { day: DailyTopic }) {
+  const [completedTasks, setCompletedTasks] = React.useState<Record<number, boolean>>(() => {
+    try {
+      const stored = localStorage.getItem(`tasks-day-${day.day}`);
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const toggleTask = (index: number) => {
+    const newTasks = { ...completedTasks, [index]: !completedTasks[index] };
+    setCompletedTasks(newTasks);
+    try {
+      localStorage.setItem(`tasks-day-${day.day}`, JSON.stringify(newTasks));
+    } catch {}
+  };
+
   return (
     <div className="flex flex-col max-w-4xl mx-auto w-full gap-6 pb-12">
       <section className="bg-[#1e293b] rounded-lg border border-slate-700 p-5 shadow-xl">
@@ -80,9 +97,11 @@ function DayView({ day }: { day: DailyTopic }) {
           <Section title="Practical Tasks" icon={<Terminal size={14} />}>
              <ul className="space-y-2">
               {day.practicalTasks.map((task, i) => (
-                <li key={i} className="flex gap-2 items-start">
-                  <span className="text-emerald-500 text-sm leading-none">□</span> 
-                  <span className="text-slate-300">{task}</span>
+                <li key={i} className="flex gap-3 items-start cursor-pointer group" onClick={() => toggleTask(i)}>
+                  <div className={`mt-0.5 shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-all ${completedTasks[i] ? 'bg-emerald-500 border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'border-slate-500 group-hover:border-emerald-400/50'}`}>
+                    {completedTasks[i] && <CheckCircle2 size={12} className="text-white" strokeWidth={3} />}
+                  </div>
+                  <span className={`text-slate-300 transition-all duration-300 ${completedTasks[i] ? 'line-through opacity-40' : 'group-hover:text-slate-200'}`}>{task}</span>
                 </li>
               ))}
             </ul>
@@ -162,7 +181,7 @@ function WeekView({ week }: { week: WeeklyReview }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Section title="Knowledge Review" icon={<CheckCircle2 size={14} />}>
             <ul className="space-y-1.5">
-                {week.knowledgeReview.map((k, i) => (
+                {week.knowledgeReview?.map((k, i) => (
                   <li key={i} className="flex gap-2 items-start text-xs"><span className="text-slate-600 font-bold">•</span> <span className="text-slate-300">{k}</span></li>
                 ))}
             </ul>
