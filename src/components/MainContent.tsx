@@ -1,7 +1,7 @@
 import React from 'react';
 import { MonthlyMilestone, WeeklyReview, DailyTopic } from '../types';
 import { motion } from 'framer-motion';
-import { CheckCircle2, AlertTriangle, BookOpen, Terminal, Presentation, ShieldAlert, Cpu } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, BookOpen, Terminal, Presentation, ShieldAlert, Cpu, FileText } from 'lucide-react';
 
 interface MainContentProps {
   selection: { type: 'month' | 'week' | 'day'; data: any } | null;
