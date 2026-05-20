@@ -1,0 +1,6 @@
+{
+  "name": "Platform Engineering Bootcamp",
+  "description": "An intensive 5-month, real-world roadmap transforming mid-level DevOps into Senior Platform Engineers. Focuses on on-premise, GitOps, Kubernetes internals, and SRE operations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
